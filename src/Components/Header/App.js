@@ -43,7 +43,7 @@ function Header() {
                                             <a href="/pokemons">Pokemons</a>
                                         </li>
                                         <li>
-                                            <a href="/quiz">Quiz</a>
+                                            <a href="/pokeWho">Quiz</a>
                                         </li>
                                         <li>
                                             <a href="/ranking">Ranking</a>
