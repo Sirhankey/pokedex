@@ -6,6 +6,7 @@ import { PokemonsProvider } from './Contextos/Pokemons';
 import Detail from './Pages/Detail/App';
 import Header from './Components/Header/App';
 import Footer from './Components/Footer/App';
+import PokeWho from './Pages/PokeWho/App';
 
 function AppRoutes() {
     const [loggedIn, setLoggedIn] = useState(true);
@@ -35,6 +36,10 @@ function AppRoutes() {
                         path="/detail/:id"
                         element={!loggedIn ? <Navigate to="/" /> : <Detail />}
                     />
+                    <Route
+                        path="/pokeWho"
+                        element={!loggedIn ? <Navigate to="/" />  : <PokeWho/>} />
+
                     {/* <Route path="/detail/:pokemonId" component={DetailPage} /> */}
                     {/* <Route path="/cadastro" component={CadastroPage} /> */}
                     {/* <Route path="/pokedex" component={PokedexPage} /> */}
