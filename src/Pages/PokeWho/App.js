@@ -52,7 +52,7 @@ function PokeWho() {
 
     return (
         <div className="flex items-center justify-center flex-col h-80vh w-screen">
-            <div className="carrousell"></div>
+            {/* <div className="carrousell"></div> */}
             <div className="relative flex items-center justify-center">
                 <div className={!revealed ? 'opacity-50 filter brightness-0' : ''}>
                     <img
@@ -65,7 +65,7 @@ function PokeWho() {
                     <h2>{score}</h2>
                 </div>
             </div>
-            <div className="grid gap-2 md:grid-cols-2 md:w-1/2 w-full mb-4">
+            <div className="grid gap-2 md:grid-cols-2 md:w-1/2 w-full mb-6">
                 {options.map((option, index) => (
                     <div className="p-2 text-center" key={index}>
                         <button
