@@ -55,12 +55,12 @@ function PokeWho() {
             <div className="relative flex items-center justify-center">
                 <div className={!revealed ? 'opacity-50 filter brightness-0' : ''}>
                     <img
-                        className="w-[250px] md:w-[500px] h-[250px] md:h-[500px]"
+                        className="w-[400px] md:w-[500px] h-[400px] md:h-[500px]"
                         src={pokemon ? pokemon.sprites.front_default : ""}
                         alt="Quem é esse pokemon?"
                     />
                 </div>
-                <div className="absolute top-[30px] right-[30px] bg-blue-500 rounded-full p-4 shadow-lg z-10 text-white font-bold text-2xl">
+                <div className="absolute top-[30px] right-[10px] bg-blue-500 rounded-full p-4 shadow-lg z-10 text-white font-bold text-2xl">
                     <h2>{score}</h2>
                 </div>
             </div>
