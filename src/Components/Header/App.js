@@ -76,7 +76,7 @@ function Header() {
                                     <Link to="/pokemons">Pokemons</Link>
                                 </li>
                                 <li>
-                                    <Link to="/quiz">Quiz</Link>
+                                    <Link to="/pokeWho">Quiz</Link>
                                 </li>
                                 <li>
                                     <Link to="/ranking">Ranking</Link>
