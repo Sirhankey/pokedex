@@ -52,11 +52,10 @@ function PokeWho() {
 
     return (
         <div className="flex items-center justify-center flex-col h-80vh w-screen">
-            {/* <div className="carrousell"></div> */}
             <div className="relative flex items-center justify-center">
                 <div className={!revealed ? 'opacity-50 filter brightness-0' : ''}>
                     <img
-                        className="w-[500px] h-[500px]"
+                        className="w-[250px] md:w-[500px] h-[250px] md:h-[500px]"
                         src={pokemon ? pokemon.sprites.front_default : ""}
                         alt="Quem é esse pokemon?"
                     />
@@ -69,7 +68,7 @@ function PokeWho() {
                 {options.map((option, index) => (
                     <div className="p-2 text-center" key={index}>
                         <button
-                            className={`w-full h-[50px] py-2 px-4 rounded bg-blue-500 text-white ${selectedOption === option && !revealed ? 'animate-blink' : ''} ${revealed ? (option === correctOption ? 'bg-green-500' : (option === selectedOption ? 'bg-red-500' : '')) : ''}`}
+                            className={`w-full h-[50px] md:h-[50px] py-2 px-4 rounded bg-blue-500 text-white ${selectedOption === option && !revealed ? 'animate-blink' : ''} ${revealed ? (option === correctOption ? 'bg-green-500' : (option === selectedOption ? 'bg-red-500' : '')) : ''}`}
                             onClick={() => handleOptionClick(option)}
                             disabled={disableOptions}
                         >
