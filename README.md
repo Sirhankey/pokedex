@@ -13,8 +13,8 @@ PokeDex é um aplicativo web que consome uma API de pokemons para fornecer diver
 
 - `/`: Página inicial com lista de pokemons.
 - `/login`: Página de login.
-- `/register`: Página de cadastro.
-- `/pokedex`: Página de pokemons favoritos do usuário.
+- `/register`: Página de cadastro. (construction)
+- `/pokedex`: Página de pokemons favoritos do usuário. (construction)
 - `/pokeWho`: Página do minigame "Quem é esse Pokemon".
 
 ## Instalação
