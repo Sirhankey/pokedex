@@ -14,19 +14,17 @@ PokeDex é um aplicativo web que consome uma API de pokemons para fornecer diver
 - `/`: Página inicial com lista de pokemons.
 - `/login`: Página de login.
 - `/register`: Página de cadastro.
-- `/favorites`: Página de pokemons favoritos do usuário.
-- `/game`: Página do minigame "Quem é esse Pokemon".
+- `/pokedex`: Página de pokemons favoritos do usuário.
+- `/pokeWho`: Página do minigame "Quem é esse Pokemon".
 
 ## Instalação
 
-1. Clone o repositório: `git clone https://github.com/seu-usuario/pokeapp.git`
+1. Clone o repositório: `git clone https://github.com/Sirhankey/pokedex`
 2. Instale as dependências: `npm install`
 3. Inicie o servidor de desenvolvimento: `npm start`
 
 ## Deploy
 
-Este projeto está implantado no Vercel. Você pode acessá-lo [aqui](https://pokeapp.vercel.app/).
+Este projeto está implantado no Vercel. Você pode acessá-lo [aqui](https://pokedex-pi-blue.vercel.app/home).
 
 ---
-
-Você pode personalizar este README de acordo com as especificidades do seu projeto e adicionar mais detalhes conforme necessário.
