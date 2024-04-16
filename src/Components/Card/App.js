@@ -1,7 +1,6 @@
 import React from "react";
 import pokemonTypes, { getTypeColor } from "../../Utils/util";
 import PokemonType from "../PokemonType/App";
-import pokeball from './pokeball.png'
 import { Link } from "react-router-dom";
 
 function getPokemonCardStyles(types) {

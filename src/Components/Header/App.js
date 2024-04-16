@@ -1,14 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useUsuarioContext } from "../../Contextos/Usuario";
+import { deslogarUsuario } from "../../Services/usuario";
 
-function Header() {
+function Header({ isLoggedIn, onLogout }) {
+    const { usuario, setUsuario } = useUsuarioContext();
     const [isMenuOpen, setMenuOpen] = React.useState(false);
-    const isLoggedIn = true;
-    const username = "Ash Ketchup";
+    const username = usuario?.email ?? 'Ash Ketchum';
 
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
+
+    const handleLogout = (event) => {
+        console.log('event', event);
+        event.preventDefault();
+        deslogarUsuario(setUsuario);
+        onLogout();
+    };
+
 
     return (
         <header className="bg-gray-900 text-white relative">
@@ -49,7 +59,7 @@ function Header() {
                                             <a href="/ranking">Ranking</a>
                                         </li>
                                         <li>
-                                            <a href="/logout">Logout</a>
+                                            <button onClick={handleLogout}>Logout</button>
                                         </li>
                                     </>
                                 ) : (
@@ -82,7 +92,7 @@ function Header() {
                                     <Link to="/ranking">Ranking</Link>
                                 </li>
                                 <li>
-                                    <Link to="/logout">Logout</Link>
+                                    <button onClick={handleLogout}>Logout</button>
                                 </li>
                             </>
                         ) : (
