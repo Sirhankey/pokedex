@@ -65,7 +65,7 @@ function PokeWho() {
                     <h2>{score}</h2>
                 </div>
             </div>
-            <div className="grid gap-2 md:grid-cols-2 md:w-1/2 w-full">
+            <div className="grid gap-2 md:grid-cols-2 md:w-1/2 w-full mb-4">
                 {options.map((option, index) => (
                     <div className="p-2 text-center" key={index}>
                         <button
