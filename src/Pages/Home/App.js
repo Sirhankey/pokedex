@@ -17,7 +17,7 @@ const Home = () => {
                 <Container>
                     <section>
                         {/* Grid de cards de Pokemon */}
-                        <div className="flex flex-wrap gap-2 max-md:flex-col max-md:gap-0">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                             {loading ? (
                                 <p>Carregando...</p>
                             ) : (
