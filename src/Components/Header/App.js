@@ -1,23 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useUsuarioContext } from "../../Contextos/Usuario";
-import { deslogarUsuario } from "../../Services/usuario";
+// import { deslogarUsuario } from "../../Services/usuario";
 
 function Header({ isLoggedIn, onLogout }) {
-    const { usuario, setUsuario } = useUsuarioContext();
+    const { usuario } = useUsuarioContext();
     const [isMenuOpen, setMenuOpen] = React.useState(false);
-    const username = usuario?.email ?? 'Ash Ketchum';
+    console.log('usuario', usuario);
+    const username = localStorage.getItem('email')?.split('@')[0];
+
+
 
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
 
-    const handleLogout = (event) => {
-        console.log('event', event);
-        event.preventDefault();
-        deslogarUsuario(setUsuario);
-        onLogout();
-    };
+    // const handleLogout = (event) => {
+    //     console.log('event', event);
+    //     event.preventDefault();
+    //     deslogarUsuario(setUsuario);
+    //     onLogout();
+    // };
 
 
     return (
@@ -50,16 +53,10 @@ function Header({ isLoggedIn, onLogout }) {
                                 {isLoggedIn ? (
                                     <>
                                         <li>
-                                            <a href="/pokemons">Pokemons</a>
+                                            <a href="/home">Pokemons</a>
                                         </li>
                                         <li>
                                             <a href="/pokeWho">Quiz</a>
-                                        </li>
-                                        <li>
-                                            <a href="/ranking">Ranking</a>
-                                        </li>
-                                        <li>
-                                            <button onClick={handleLogout}>Logout</button>
                                         </li>
                                     </>
                                 ) : (
@@ -68,7 +65,7 @@ function Header({ isLoggedIn, onLogout }) {
                                             <a href="/login">Login</a>
                                         </li>
                                         <li>
-                                            <a href="/register">Cadastrar</a>
+                                            <a href="/home">Pokemons</a>
                                         </li>
                                     </>
                                 )}
@@ -77,22 +74,15 @@ function Header({ isLoggedIn, onLogout }) {
                     </div>
                 )}
 
-                {/* Links de navegação à direita (apenas em desktop) */}
                 <div className="hidden lg:flex items-center">
                     <ul className="flex gap-4">
                         {isLoggedIn ? (
                             <>
                                 <li>
-                                    <Link to="/pokemons">Pokemons</Link>
+                                    <Link to="/home">Pokemons</Link>
                                 </li>
                                 <li>
                                     <Link to="/pokeWho">Quiz</Link>
-                                </li>
-                                <li>
-                                    <Link to="/ranking">Ranking</Link>
-                                </li>
-                                <li>
-                                    <button onClick={handleLogout}>Logout</button>
                                 </li>
                             </>
                         ) : (
@@ -101,7 +91,7 @@ function Header({ isLoggedIn, onLogout }) {
                                     <Link to="/login">Login</Link>
                                 </li>
                                 <li>
-                                    <Link to="/register">Cadastrar</Link>
+                                    <Link to="/home">Pokemons</Link>
                                 </li>
                             </>
                         )}
