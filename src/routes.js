@@ -15,13 +15,16 @@ function AppRoutes() {
 
     const handleLogin = (onLogin) => {
         if (onLogin) {
+            console.log('onLogin', onLogin)
             setLoggedIn(true);
             localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('email', onLogin.email);
+
         }
     };
 
     const handleLogout = (onLogout) => {
-        if(onLogout){
+        if (onLogout) {
             setLoggedIn(false);
             localStorage.setItem('loggedIn', 'false');
         }
