@@ -2,6 +2,7 @@ import React from 'react';
 import { PokemonsProvider, usePokemonsContext } from '../../Contextos/Pokemons';
 import PokemonCardContainer from '../../Components/CardContainer/App';
 import Container from '../../Components/Container/App';
+import Loading from '../../Components/Loading/App';
 
 const Home = () => {
     // Use o hook usePokemonsContext para acessar o estado dos pokemons
@@ -19,7 +20,7 @@ const Home = () => {
                         {/* Grid de cards de Pokemon */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                             {loading ? (
-                                <p>Carregando...</p>
+                                <Loading />
                             ) : (
                                 pokemons.map(pokemon => (
                                     <div key={pokemon.id} className="w-full md:w-1/3">
