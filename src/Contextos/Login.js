@@ -24,8 +24,6 @@ export function LoginProvider({ children }) {
 };
 
 export function useLoginContext() {
-    console.log("entrando no useLoginContext")
-    
     const { loggedIn, login, logout } = useContext(LoginContext);
 
     return { loggedIn, login, logout };
