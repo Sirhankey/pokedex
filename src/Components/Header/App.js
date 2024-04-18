@@ -1,12 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useUsuarioContext } from "../../Contextos/Usuario";
-// import { deslogarUsuario } from "../../Services/usuario";
 
 function Header({ isLoggedIn, onLogout }) {
-    const { usuario } = useUsuarioContext();
     const [isMenuOpen, setMenuOpen] = React.useState(false);
-    console.log('usuario', usuario);
     const username = localStorage.getItem('email')?.split('@')[0];
 
 
@@ -14,14 +10,6 @@ function Header({ isLoggedIn, onLogout }) {
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
-
-    // const handleLogout = (event) => {
-    //     console.log('event', event);
-    //     event.preventDefault();
-    //     deslogarUsuario(setUsuario);
-    //     onLogout();
-    // };
-
 
     return (
         <header className="bg-gray-900 text-white relative">
@@ -58,6 +46,9 @@ function Header({ isLoggedIn, onLogout }) {
                                         <li>
                                             <a href="/pokeWho">Quiz</a>
                                         </li>
+                                        <li>
+                                            <a href="/ranking">PokeMasters</a>
+                                        </li>
                                     </>
                                 ) : (
                                     <>
@@ -83,6 +74,9 @@ function Header({ isLoggedIn, onLogout }) {
                                 </li>
                                 <li>
                                     <Link to="/pokeWho">Quiz</Link>
+                                </li>
+                                <li>
+                                    <a href="/ranking">PokeMasters</a>
                                 </li>
                             </>
                         ) : (
