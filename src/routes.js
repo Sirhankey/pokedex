@@ -8,6 +8,7 @@ import Footer from './Components/Footer/App';
 import PokeWho from './Pages/PokeWho/App';
 import { UsuarioProvider } from './Contextos/Usuario';
 import { PokemonsProvider } from './Contextos/Pokemons';
+import { RankingProvider } from './Contextos/Ranking';
 
 function AppRoutes() {
     console.log('Log antes do erro!');
@@ -42,31 +43,33 @@ function AppRoutes() {
     return (
         <BrowserRouter>
             <UsuarioProvider>
-                <PokemonsProvider>
-                    <Header isLoggedIn={loggedIn} onLogout={handleLogout} />
-                    <Routes>
-                        <Route
-                            path="/login"
-                            element={!loggedIn ? <Login onLogin={handleLogin} /> : <Home />}
-                        />
-                        <Route
-                            path="/"
-                            element={!loggedIn ? <Login onLogin={handleLogin} /> : <Home />}
-                        />
-                        <Route
-                            path="/home"
-                            element={loggedIn ? <Home /> : <Navigate to="/" />}
-                        />
-                        <Route
-                            path="/detail/:id"
-                            element={loggedIn ? <Detail /> : <Navigate to="/" />}
-                        />
-                        <Route
-                            path="/pokeWho"
-                            element={loggedIn ? <PokeWho /> : <Navigate to="/" />} />
-                    </Routes>
-                    <Footer />
-                </PokemonsProvider>
+                <RankingProvider>
+                    <PokemonsProvider>
+                        <Header isLoggedIn={loggedIn} onLogout={handleLogout} />
+                        <Routes>
+                            <Route
+                                path="/login"
+                                element={!loggedIn ? <Login onLogin={handleLogin} /> : <Home />}
+                            />
+                            <Route
+                                path="/"
+                                element={!loggedIn ? <Login onLogin={handleLogin} /> : <Home />}
+                            />
+                            <Route
+                                path="/home"
+                                element={loggedIn ? <Home /> : <Navigate to="/" />}
+                            />
+                            <Route
+                                path="/detail/:id"
+                                element={loggedIn ? <Detail /> : <Navigate to="/" />}
+                            />
+                            <Route
+                                path="/pokeWho"
+                                element={loggedIn ? <PokeWho /> : <Navigate to="/" />} />
+                        </Routes>
+                        <Footer />
+                    </PokemonsProvider>
+                </RankingProvider>
             </UsuarioProvider>
         </BrowserRouter>
     );
