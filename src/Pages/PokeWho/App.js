@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { usePokemonsContext } from '../../Contextos/Pokemons';
-import CustomCarousel from '../../Components/Carousel/App';
-import { useRankingContext } from '../../Contextos/Ranking';
+// import CustomCarousel from '../../Components/Carousel/App';
 import classNames from 'classnames';
 import PokemonImage from '../../Components/PokemonImage/App';
 import ScoreDisplay from '../../Components/ScoreDisplay/App';
 import PokemonOptions from '../../Components/PokemonOptions/App';
 import { shuffleArray } from '../../Utils/util';
 import Loading from '../../Components/Loading/App';
+import CarouselTailwind from '../../Components/CarouselTailwind/App';
+import { ScoreContext, ScoreProvider } from '../../Contextos/Score';
 
 function PokeWho() {
     const { pokemons } = usePokemonsContext();
-    const { postScore, getUserScores } = useRankingContext();
+    const { scores, postScore } = useContext(ScoreContext);
     const [userHighScores, setUserHighScores] = useState([]);
     const [pokemon, setPokemon] = useState(null);
     const [score, setScore] = useState(0);
@@ -26,19 +27,13 @@ function PokeWho() {
 
     useEffect(() => {
         const fetchScores = async () => {
-            try {
-                const userScores = await getUserScores();
-                console.log('userScores!!!! =>', userScores);
-                if (Object.keys(userScores ?? {}).length >= 3) {
-                    const sortedScores = Object.values(userScores).sort((a, b) => b.score - a.score);
-                    const top3Scores = sortedScores.slice(0, 3);
-                    setUserHighScores(top3Scores);
-                } else {
-                    console.log('O número mínimo de 3 scores não foi atingido.');
-                }
-            } catch (error) {
-                console.error('Error fetching user high scores:', error);
-            } finally {
+            if (scores.length >= 3) {
+                const sortedScores = [...scores].sort((a, b) => b.score - a.score);
+                const top3Scores = sortedScores.slice(0, 3);
+                setUserHighScores(top3Scores);
+                setLoadingScores(false);
+            } else {
+                console.log('O número mínimo de 3 scores não foi atingido.');
                 setLoadingScores(false);
             }
         };
@@ -47,27 +42,36 @@ function PokeWho() {
             fetchScores();
             initGame();
         }
-    }, [pokemons]); // Ensure pokemons are loaded before fetching scores
+    }, [pokemons, scores]);
 
     const initGame = () => {
-        setScore(0);
-        setRevealedPokemons({});
-        setUsedPokemons(new Set());
-        pickRandomPokemon();
+        setScore(0); // Reseta o score
+        setRevealedPokemons({}); // Limpa os pokémons revelados
+        setUsedPokemons(new Set()); // Reseta o conjunto de pokémons usados
+        setSelectedOption(null); // Limpa a opção selecionada
+        setRevealed(false); // Garante que nenhum Pokémon esteja revelado
+        setDisableOptions(false); // Habilita as opções novamente
+        pickRandomPokemon(); // Escolhe um novo Pokémon aleatório
     };
+
 
     const pickRandomPokemon = () => {
         if (pokemons && pokemons.length > 0) {
-            let randomPokemon;
-            do {
-                const randomIndex = Math.floor(Math.random() * pokemons.length);
-                randomPokemon = pokemons[randomIndex];
-            } while (usedPokemons.has(randomPokemon.name) && usedPokemons.size < pokemons.length);
-            if (randomPokemon) {
+            if (usedPokemons.size >= pokemons.length) {
+                // Todos os Pokémon foram usados, o usuário "ganhou" o jogo
+                console.log("Parabéns! Todos os Pokémon foram adivinhados.");
+                postScore(score);  // Posta a pontuação final
+                initGame();        // Pode reiniciar o jogo ou redirecionar para outra tela
+            } else {
+                let randomPokemon;
+                do {
+                    const randomIndex = Math.floor(Math.random() * pokemons.length);
+                    randomPokemon = pokemons[randomIndex];
+                } while (usedPokemons.has(randomPokemon.name));
                 setPokemon(randomPokemon);
                 setCorrectOption(randomPokemon.name);
                 prepareOptions(randomPokemon);
-                setUsedPokemons(new Set(usedPokemons).add(randomPokemon.name));
+                setUsedPokemons(new Set([...usedPokemons, randomPokemon.name]));
             }
         }
     };
@@ -85,23 +89,35 @@ function PokeWho() {
         setOptions(options);
     };
 
-
     const handleOptionClick = (option) => {
         if (revealed) return;
         setSelectedOption(option);
         setDisableOptions(true);
         setRevealed(true);
+
         setTimeout(() => {
             if (option === pokemon.name) {
-                setRevealedPokemons(updateRevealedPokemons(pokemon, revealedPokemons));
+                const updatedPokemons = updateRevealedPokemons(pokemon, revealedPokemons);
                 setScore(score + 1);
-                pickRandomPokemon();
+                setRevealedPokemons(updatedPokemons);
+
+                setTimeout(() => {
+                    if (usedPokemons.size < pokemons.length - 1) {
+                        pickRandomPokemon();
+                    } else {
+                        console.log("Último Pokémon acertado. Parabéns!");
+                        postScore(score + 1); // Posta a pontuação final
+                        initGame(); // Reinicia o jogo
+                    }
+                    setRevealed(false);
+                    setDisableOptions(false);
+                }, 500);
             } else {
-                postScore(score);
-                initGame();
+                postScore(score); // Posta a pontuação
+                setTimeout(() => {
+                    initGame(); // Reinicia o jogo após um pequeno delay para permitir que ações assíncronas concluam
+                }, 500);
             }
-            setRevealed(false);
-            setDisableOptions(false);
         }, 3000);
     };
 
@@ -131,23 +147,25 @@ function PokeWho() {
     };
 
     return (
-        <div className="main-container mb-16">
-            {loadingScores ? (
-                <Loading />
-            ) : (
-                <div>
-                    <CustomCarousel revealedPokemons={revealedPokemons} />
-                    <div className="flex items-center justify-center flex-col h-80vh w-screen">
-                        <h1 className="text-3xl font-bold mt-2">Quem é esse Pokémon?</h1>
-                        <div className="relative flex items-center justify-center">
-                            <PokemonImage pokemon={pokemon} revealed={revealed} />
-                            <ScoreDisplay score={score} scoreClass={scoreClass()} userHighScores={userHighScores} />
+        <ScoreProvider>
+            <div className="main-container mb-16">
+                {loadingScores ? (
+                    <Loading />
+                ) : (
+                    <div>
+                        <CarouselTailwind revealedPokemons={revealedPokemons} />
+                        <div className="flex items-center justify-center flex-col h-80vh w-screen">
+                            <h1 className="text-3xl font-bold mt-2">Quem é esse Pokémon?</h1>
+                            <div className="relative flex items-center justify-center">
+                                <PokemonImage pokemon={pokemon} revealed={revealed} />
+                                <ScoreDisplay score={score} scoreClass={scoreClass()} userHighScores={userHighScores} />
+                            </div>
+                            <PokemonOptions options={options} handleOptionClick={handleOptionClick} selectedOption={selectedOption} revealed={revealed} correctOption={correctOption} disableOptions={disableOptions} />
                         </div>
-                        <PokemonOptions options={options} handleOptionClick={handleOptionClick} selectedOption={selectedOption} revealed={revealed} correctOption={correctOption} disableOptions={disableOptions} />
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
+        </ScoreProvider>
     );
 }
 
