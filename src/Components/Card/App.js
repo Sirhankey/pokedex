@@ -28,7 +28,7 @@ const PokemonCard = ({ id, name, types, sprites }) => {
 
 
     return (
-        <div className="flex relative flex-col mt-5 mr-5 rounded-xl max-w-[440px] min-h-[210px] max-sm:mx-5 max-sm:mt-5 max-sm:mb-5 w-full md:max-w-[750px] md:min-w-[450px] hover:scale-105 transition-transform duration-300" style={{ ...getPokemonCardStyles(types), boxShadow: '1px 1px 3px rgba(0, 0, 0, 1)' }}>
+        <div className="flex relative flex-col mt-5 mr-5 rounded-xl max-w-[440px] min-h-[210px] max-sm:mx-5 max-sm:mt-5 max-sm:mb-5 border-black border-2 w-full md:max-w-[750px] md:min-w-[450px] hover:scale-105 transition-transform duration-300" style={{ ...getPokemonCardStyles(types), boxShadow: '1px 1px 3px rgba(0, 0, 0, 1)' }}>
             <header className="flex flex-col px-5 pt-5 -mt-px font-bold text-white whitespace-nowrap items-start">
                 <h2 className="flex w-full text-base">#{id}</h2>
                 <h3 className="flex mt-2 w-full text-3xl">{name}</h3>
