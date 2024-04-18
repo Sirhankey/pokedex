@@ -3,8 +3,6 @@ import React from 'react';
 import Scores from '../Scores/App';
 
 const ScoreDisplay = ({ score, scoreClass, userHighScores }) => {
-    console.log('userHighScores:', userHighScores);
-    console.log('Object.keys(userHighScores).length >= 3:', Object.keys(userHighScores).length >= 3);
     return (
         <>
             <div className={`absolute top-[30px] right-[10px] p-4 z-10 text-white font-bold text-2xl rounded-full ${scoreClass}`}
