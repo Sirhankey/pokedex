@@ -7,7 +7,7 @@ const PokemonOptions = ({ options, handleOptionClick, selectedOption, revealed, 
     };
 
     return (
-        <div className="grid gap-2 md:grid-cols-2 md:w-1/2 w-full mb-6">
+        <div className="grid gap-4 md:grid-cols-2 md:w-1/2 w-full mb-6">
             {options.map((option, index) => (
                 <button
                     key={index}
