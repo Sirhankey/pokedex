@@ -24,7 +24,8 @@ function Header({ isLoggedIn, onLogout }) {
                     </Link>
                     {isLoggedIn && (
                         <span className="mr-4 font-semibold text-white text-sm md:text-base lg:font-medium lg:mr-6">
-                            Treinador: <span className="text-gray-200 font-bold">{username}</span>
+                            {/* Treinador: <span className="text-gray-200 font-bold">{username}</span> */}
+                            <span className="text-gray-200 font-bold">Amo vocês!</span>
                         </span>
 
                     )}
@@ -46,7 +47,10 @@ function Header({ isLoggedIn, onLogout }) {
                                         <li>
                                             <a href="/home">Pokemons</a>
                                         </li>
-                                                                                <li>
+                                        <li>
+                                            <a href="/pokedex">Pokedex</a>
+                                        </li>
+                                        <li>
                                             <a href="/pokeWho">Quiz</a>
                                         </li>
                                         <li>
@@ -75,7 +79,10 @@ function Header({ isLoggedIn, onLogout }) {
                                 <li>
                                     <Link to="/home">Pokemons</Link>
                                 </li>
-                                                                <li>
+                                <li>
+                                    <a href="/pokedex">Pokedex</a>
+                                </li>
+                                <li>
                                     <Link to="/pokeWho">Quiz</Link>
                                 </li>
                                 <li>

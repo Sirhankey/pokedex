@@ -49,17 +49,17 @@ const PokemonCard = ({ id, name, types, sprites }) => {
             </div>
             <footer className="box-border flex relative flex-row justify-start gap-5 px-5 pb-5">
                 <Link to={`/detail/${id}`}>
-                    <button className="bg-transparent border-none cursor-pointer">
+                    <button className="bg-transparent border-none shadow-md cursor-pointer">
                         <img src={pokedex} alt="Detalhes" className="h-6 w-6" />
                     </button>
                 </Link>
                 <Link to={`/detail/${id}`}>
-                    <button className="bg-transparent border-none cursor-pointer mr-5">
+                    <button className="bg-transparent border-none shadow-md cursor-pointer mr-5">
                         <img src={pokeball} alt="Capturar" className="h-6 w-6" />
                     </button>
                 </Link>
             </footer>
-            <img loading="lazy" src={sprites.front_default} alt={`${name} background`} className="box-border object-cover overflow-hidden absolute shrink-0 w-4/5 aspect-square max-w-[250px] min-h-[20px] min-w-[20px] top-[-30px] right-[-35px]" />
+            <img loading="lazy" src={sprites.front_default}  style={{ zIndex: '1' }} alt={`${name} background`} className="box-border object-cover overflow-hidden absolute z-1 shrink-0 w-4/5 aspect-square max-w-[250px] min-h-[20px] min-w-[20px] top-[-30px] right-[-35px]" />
         </div>
     );
 };
