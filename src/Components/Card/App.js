@@ -24,7 +24,7 @@ function getPokemonCardStyles(types) {
     return backgroundStyle;
 }
 
-const PokemonCard = ({ id, name, types, mainImage, sprites }) => {
+const PokemonCard = ({ id, name, types, sprites }) => {
 
 
     return (
@@ -54,12 +54,12 @@ const PokemonCard = ({ id, name, types, mainImage, sprites }) => {
                     </button>
                 </Link>
                 <Link to={`/detail/${id}`}>
-                    <button className="bg-transparent border-none cursor-pointer mr-5" disabled>
+                    <button className="bg-transparent border-none cursor-pointer mr-5">
                         <img src={pokeball} alt="Capturar" className="h-6 w-6" />
                     </button>
                 </Link>
             </footer>
-            <img loading="lazy" src={sprites.front_default} alt={`${name} background`} className="box-border object-cover overflow-hidden absolute right-0 shrink-0 w-4/5 aspect-square max-w-[200px] min-h-[20px] min-w-[20px] top-[0ppx]" />
+            <img loading="lazy" src={sprites.front_default} alt={`${name} background`} className="box-border object-cover overflow-hidden absolute shrink-0 w-4/5 aspect-square max-w-[250px] min-h-[20px] min-w-[20px] top-[-30px] right-[-35px]" />
         </div>
     );
 };
