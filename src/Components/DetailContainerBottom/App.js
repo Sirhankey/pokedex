@@ -15,10 +15,6 @@ function Card({ children }) {
 }
 
 function DetailTypes({ types }) {
-    const typeNames = types.map(type => type.type.name);
-
-    console.log("typeNames", typeNames)
-
     return (
         <div className="box-border flex relative flex-col shrink-0 h-[200px]">
             <h2 className="mb-2 font-bold text-lg">Types</h2>
@@ -44,11 +40,6 @@ function DetailTypes({ types }) {
 }
 
 function DetailContainerBottom({ abilities, weight, height, types }) {
-
-    console.log("abilities", abilities);
-    console.log("weight", weight);
-    console.log("height", height);
-    console.log("types", types);
 
     const abilityNames = abilities.map(ability => ability.ability.name);
 

@@ -31,8 +31,6 @@ function DetailContainerTop({ image, name, baseXP, moves, sprites }) {
     const spritesData = pokemonSpritesSpread(sprites); // Use a função pokemonSpritesSpread para obter as imagens front e back
     const spriteVariants = showFront ? spritesData.frontImages : spritesData.backImages; // Obtenha as imagens com base em showFront
 
-    // console.log(moves);
-
     const spriteElements = Object.entries(spriteVariants).map(([variantKey, variantValue]) => (
         variantValue ?
             <img
