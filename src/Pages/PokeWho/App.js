@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { usePokemonsContext } from '../../Contextos/Pokemons';
-import classNames from 'classnames';
 import CustomCarousel from '../../Components/Carousel/App';
+import { useRankingContext } from '../../Contextos/Ranking';
+import classNames from 'classnames';
+import PokemonImage from '../../Components/PokemonImage/App';
+import ScoreDisplay from '../../Components/ScoreDisplay/App';
+import PokemonOptions from '../../Components/PokemonOptions/App';
+import { shuffleArray } from '../../Utils/util';
+import Loading from '../../Components/Loading/App';
 
 function PokeWho() {
     const { pokemons } = usePokemonsContext();
+    const { postScore, getUserScores } = useRankingContext();
+    const [userHighScores, setUserHighScores] = useState([]);
     const [pokemon, setPokemon] = useState(null);
     const [score, setScore] = useState(0);
     const [options, setOptions] = useState([]);
@@ -13,39 +21,70 @@ function PokeWho() {
     const [disableOptions, setDisableOptions] = useState(false);
     const [correctOption, setCorrectOption] = useState(null);
     const [revealedPokemons, setRevealedPokemons] = useState({});
-
-    const updateRevealedPokemons = (pokemon, revealedPokemons) => {
-        const updatedRevealedPokemons = { ...revealedPokemons };
-        updatedRevealedPokemons[pokemon.name] = {
-            name: pokemon.name,
-            sprite: pokemon.sprites.front_default
-        };
-        return updatedRevealedPokemons;
-    };
-
+    const [usedPokemons, setUsedPokemons] = useState(new Set());
+    const [loadingScores, setLoadingScores] = useState(true);
 
     useEffect(() => {
-        if (!pokemons) return;
-        const numberOfPokemons = 150;
-        const randomIndex = Math.floor(Math.random() * numberOfPokemons);
-        const randomPokemon = pokemons[randomIndex];
-        if (randomPokemon && randomPokemon.sprites.front_default) {
-            console.log('randomPokemon: ', randomPokemon);
-            setPokemon(randomPokemon);
-            const selectedOptions = [];
-            while (selectedOptions.length < 3) {
-                const optionIndex = Math.floor(Math.random() * numberOfPokemons);
-                const optionPokemon = pokemons[optionIndex];
-                if (optionPokemon && optionPokemon.name !== randomPokemon.name && !selectedOptions.includes(optionPokemon.name)) {
-                    selectedOptions.push(optionPokemon.name);
+        const fetchScores = async () => {
+            try {
+                const userScores = await getUserScores();
+                console.log('userScores!!!! =>', userScores);
+                if (Object.keys(userScores ?? {}).length >= 3) {
+                    const sortedScores = Object.values(userScores).sort((a, b) => b.score - a.score);
+                    const top3Scores = sortedScores.slice(0, 3);
+                    setUserHighScores(top3Scores);
+                } else {
+                    console.log('O número mínimo de 3 scores não foi atingido.');
                 }
+            } catch (error) {
+                console.error('Error fetching user high scores:', error);
+            } finally {
+                setLoadingScores(false);
             }
-            selectedOptions.push(randomPokemon.name);
-            selectedOptions.sort(() => Math.random() - 0.5);
-            setOptions(selectedOptions);
-            setCorrectOption(randomPokemon.name);
+        };
+
+        if (pokemons && pokemons.length > 0) {
+            fetchScores();
+            initGame();
         }
-    }, [score, pokemons]);
+    }, [pokemons]); // Ensure pokemons are loaded before fetching scores
+
+    const initGame = () => {
+        setScore(0);
+        setRevealedPokemons({});
+        setUsedPokemons(new Set());
+        pickRandomPokemon();
+    };
+
+    const pickRandomPokemon = () => {
+        if (pokemons && pokemons.length > 0) {
+            let randomPokemon;
+            do {
+                const randomIndex = Math.floor(Math.random() * pokemons.length);
+                randomPokemon = pokemons[randomIndex];
+            } while (usedPokemons.has(randomPokemon.name) && usedPokemons.size < pokemons.length);
+            if (randomPokemon) {
+                setPokemon(randomPokemon);
+                setCorrectOption(randomPokemon.name);
+                prepareOptions(randomPokemon);
+                setUsedPokemons(new Set(usedPokemons).add(randomPokemon.name));
+            }
+        }
+    };
+
+    const prepareOptions = (pokemon) => {
+        let options = [pokemon.name];
+        while (options.length < 4) {
+            const optionIndex = Math.floor(Math.random() * pokemons.length);
+            const optionPokemon = pokemons[optionIndex];
+            if (!options.includes(optionPokemon.name)) {
+                options.push(optionPokemon.name);
+            }
+        }
+        shuffleArray(options);
+        setOptions(options);
+    };
+
 
     const handleOptionClick = (option) => {
         if (revealed) return;
@@ -56,12 +95,11 @@ function PokeWho() {
             if (option === pokemon.name) {
                 setRevealedPokemons(updateRevealedPokemons(pokemon, revealedPokemons));
                 setScore(score + 1);
-                console.log('revealedPokemons: ', revealedPokemons);
+                pickRandomPokemon();
             } else {
-                setRevealedPokemons({});
-                setScore(0);
+                postScore(score);
+                initGame();
             }
-            setPokemon(null);
             setRevealed(false);
             setDisableOptions(false);
         }, 3000);
@@ -69,51 +107,46 @@ function PokeWho() {
 
     const scoreClass = () => {
         return classNames({
-            'bg-gray-700 shadow-md': score < 15,
-            'bg-blue-500 shadow-lg': score >= 15 && score < 30,
-            'bg-green-500 shadow-xl': score >= 30 && score < 45,
-            'bg-yellow-400 shadow-2xl': score >= 45 && score < 60,
-            'bg-orange-500 shadow-3xl': score >= 60 && score < 75,
-            'bg-red-500 shadow-md': score >= 75 && score < 90,
-            'bg-pink-500 shadow-lg': score >= 90 && score < 105,
-            'bg-purple-500 shadow-xl': score >= 105 && score < 120,
-            'bg-indigo-500 shadow-2xl': score >= 120 && score < 135,
-            'bg-teal-500 shadow-3xl': score >= 135 && score < 150,
-            'bg-gold shadow-md': score >= 150,
+            'bg-gray-700': score < 15,
+            'bg-blue-500': score >= 15 && score < 30,
+            'bg-green-500': score >= 30 && score < 45,
+            'bg-yellow-400': score >= 45 && score < 60,
+            'bg-orange-500': score >= 60 && score < 75,
+            'bg-red-500': score >= 75 && score < 90,
+            'bg-pink-500': score >= 90 && score < 105,
+            'bg-purple-500': score >= 105 && score < 120,
+            'bg-indigo-500': score >= 120 && score < 135,
+            'bg-teal-500': score >= 135 && score < 150,
+            'bg-gold': score >= 150,
         });
+    };
+
+    const updateRevealedPokemons = (pokemon, currentRevealedPokemons) => {
+        const updatedRevealedPokemons = { ...currentRevealedPokemons };
+        updatedRevealedPokemons[pokemon.name] = {
+            name: pokemon.name,
+            sprite: pokemon.sprites.front_default
+        };
+        return updatedRevealedPokemons;
     };
 
     return (
         <div className="main-container mb-16">
-            <CustomCarousel revealedPokemons={revealedPokemons} />
-            <div className="flex items-center justify-center flex-col h-80vh w-screen">
-                <h1 className="text-3xl font-bold mt-2">Quem é esse Pokémon?</h1>
-                <div className="relative flex items-center justify-center">
-                    <div className={!revealed ? 'opacity-50 filter brightness-0' : ''}>
-                        <img
-                            className="w-[400px] md:w-[500px] h-[400px] md:h-[500px]"
-                            src={pokemon ? pokemon.sprites.front_default : ""}
-                            alt="Quem é esse pokemon?"
-                        />
-                    </div>
-                    <div className={`absolute top-[30px] right-[10px] p-4 z-10 text-white font-bold text-2xl rounded-full ${scoreClass()}`}>
-                        <h2>{score}</h2>
-                    </div>
-                </div>
-                <div className="grid gap-2 md:grid-cols-2 md:w-1/2 w-full mb-6">
-                    {options.map((option, index) => (
-                        <div className="p-2 text-center" key={index}>
-                            <button
-                                className={`w-full h-[50px] md:h-[50px] py-2 px-4 rounded bg-blue-500 text-white ${selectedOption === option && !revealed ? 'animate-blink' : ''} ${revealed ? (option === correctOption ? 'bg-green-500' : (option === selectedOption ? 'bg-red-500' : '')) : ''}`}
-                                onClick={() => handleOptionClick(option)}
-                                disabled={disableOptions}
-                            >
-                                {option}
-                            </button>
+            {loadingScores ? (
+                <Loading />
+            ) : (
+                <div>
+                    <CustomCarousel revealedPokemons={revealedPokemons} />
+                    <div className="flex items-center justify-center flex-col h-80vh w-screen">
+                        <h1 className="text-3xl font-bold mt-2">Quem é esse Pokémon?</h1>
+                        <div className="relative flex items-center justify-center">
+                            <PokemonImage pokemon={pokemon} revealed={revealed} />
+                            <ScoreDisplay score={score} scoreClass={scoreClass()} userHighScores={userHighScores} />
                         </div>
-                    ))}
+                        <PokemonOptions options={options} handleOptionClick={handleOptionClick} selectedOption={selectedOption} revealed={revealed} correctOption={correctOption} disableOptions={disableOptions} />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }
