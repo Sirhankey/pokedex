@@ -25,8 +25,6 @@ const Scores = ({ userHighScores }) => {
     const sortedScores = Object.values(userHighScores).sort((a, b) => b.score - a.score);
     const top3Scores = sortedScores.slice(0, 3);
 
-    console.log('Top 3 scores:', top3Scores);
-
     return (
         <div className="relative">
             <div
