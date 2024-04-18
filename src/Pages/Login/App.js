@@ -8,7 +8,6 @@ const Login = ({ onLogin }) => {
 
     const handleChange = (event) => {
         const { value, name } = event.target;
-        // console.log(event);
         setUsuario((objetoAtual) => ({
             ...objetoAtual,
             [name]: value
@@ -26,11 +25,8 @@ const Login = ({ onLogin }) => {
     };
 
     const handleLogin = (event) => {
-        console.log('event', event);
         event.preventDefault();
-        console.log('usuario', usuario);
         logarUsuario(usuario).then((usuario) => {
-            console.log('usuario!!!', usuario);
             if (usuario) {
                 onLogin(usuario);
             }
