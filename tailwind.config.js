@@ -12,7 +12,8 @@ module.exports = {
         bronze: '#CD7F32',
       },
       animation: {
-        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+        'infinite-scroll': 'infinite-scroll 30s linear infinite',
+        'infinite-scroll-slow': 'scroll 10s linear infinite',
         spin: 'spin 1s linear infinite',
       },
       keyframes: {
@@ -24,6 +25,10 @@ module.exports = {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        }
       }
     },
   },
