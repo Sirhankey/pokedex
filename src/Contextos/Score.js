@@ -2,9 +2,11 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { auth, db } from "../Infra/firebase";
 import { get, ref, set } from "firebase/database";
 import { uid } from "uid";
-import { onAuthStateChanged } from "firebase/auth"; // Importar onAuthStateChanged
+import { onAuthStateChanged } from "firebase/auth";
 
 export const ScoreContext = createContext();
+ScoreContext.displayName = 'Score';
+
 
 export function ScoreProvider({ children }) {
     const [scores, setScores] = useState([]);

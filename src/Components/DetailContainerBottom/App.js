@@ -17,23 +17,25 @@ function Card({ children }) {
 function DetailTypes({ types }) {
     return (
         <div className="box-border flex relative flex-col shrink-0 h-[200px]">
-            <h2 className="mb-2 font-bold text-lg">Types</h2>
-            <div className="box-border flex relative flex-col shrink-0 gap-5 p-5 mr-auto">
-                {types.map((type, index) => {
-                    // Procurando o tipo correspondente em pokemonTypes
-                    const foundType = pokemonTypes.find(pokemonType => pokemonType.type === type.type?.name);
-                    // Verificando se o tipo foi encontrado
-                    if (foundType) {
-                        return (
-                            <PokemonType key={index} src={foundType.src} alt={foundType.alt} className={foundType.className}>
-                                {foundType.type}
-                            </PokemonType>
-                        );
-                    } else {
-                        // Se o tipo não for encontrado, retorne null ou qualquer outra coisa
-                        return null;
-                    }
-                })}
+            <h2 className="mb-4 font-bold text-lg">Types</h2>
+            <div className="box-border flex flex-col justify-center itens-center align-center">
+                <div className="flex relative flex-col items-center justify-center gap-4">
+                    {types.map((type, index) => {
+                        // Procurando o tipo correspondente em pokemonTypes
+                        const foundType = pokemonTypes.find(pokemonType => pokemonType.type === type.type?.name);
+                        // Verificando se o tipo foi encontrado
+                        if (foundType) {
+                            return (
+                                <PokemonType key={index} src={foundType.src} alt={foundType.alt} className={foundType.className}>
+                                    {foundType.type}
+                                </PokemonType>
+                            );
+                        } else {
+                            // Se o tipo não for encontrado, retorne null ou qualquer outra coisa
+                            return null;
+                        }
+                    })}
+                </div>
             </div>
         </div>
     );

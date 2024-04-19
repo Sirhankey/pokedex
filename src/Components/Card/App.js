@@ -25,7 +25,7 @@ function getPokemonCardStyles(types) {
 }
 
 const PokemonCard = ({ id, name, types, sprites }) => {
-
+    
 
     return (
         <div className="flex relative flex-col mt-5 mr-5 rounded-xl max-w-[440px] min-h-[210px] max-sm:mx-5 max-sm:mt-5 max-sm:mb-5 border-black border-2 w-full md:max-w-[750px] md:min-w-[450px] hover:scale-105 transition-transform duration-300" style={{ ...getPokemonCardStyles(types), boxShadow: '1px 1px 3px rgba(0, 0, 0, 1)' }}>
@@ -53,13 +53,15 @@ const PokemonCard = ({ id, name, types, sprites }) => {
                         <img src={pokedex} alt="Detalhes" className="h-6 w-6" />
                     </button>
                 </Link>
-                <Link to={`/detail/${id}`}>
+<Link to={`/detail/${id}`}>
                     <button className="bg-transparent border-none shadow-md cursor-pointer mr-5">
                         <img src={pokeball} alt="Capturar" className="h-6 w-6" />
                     </button>
                 </Link>
             </footer>
-            <img loading="lazy" src={sprites.front_default}  style={{ zIndex: '1' }} alt={`${name} background`} className="box-border object-cover overflow-hidden absolute z-1 shrink-0 w-4/5 aspect-square max-w-[250px] min-h-[20px] min-w-[20px] top-[-30px] right-[-35px]" />
+            <img loading="lazy" src={sprites.front_default} style={{ zIndex: '1' }} alt={`${name} background`}
+                className="box-border object-cover overflow-hidden absolute z-1 shrink-0 w-4/5 aspect-square min-h-[20px] min-w-[20px] 
+                max-w-[220px] top-[10px] right-[-30px] md:max-w-[300px] md:top-[-35px] md:right-[-60px]" />
         </div>
     );
 };

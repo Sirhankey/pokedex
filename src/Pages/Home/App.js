@@ -18,17 +18,14 @@ const Home = () => {
                 <Container>
                     <section>
                         {/* Grid de cards de Pokemon */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                            {loading ? (
-                                <Loading />
-                            ) : (
-                                pokemons.map(pokemon => (
-                                    <div key={pokemon.id} className="w-full md:w-1/3">
-                                        <PokemonCardContainer pokemon={pokemon} />
-                                    </div>
-                                ))
-                            )}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+                            {pokemons.map(pokemon => (
+                                <div key={pokemon.id} className="w-full md:w-1/3">
+                                    <PokemonCardContainer pokemon={pokemon} />
+                                </div>
+                            ))}
                         </div>
+                        {loading && <Loading />}
                     </section>
                 </Container>
             </div>

@@ -4,6 +4,7 @@ import { db } from '../Infra/firebase';
 import { format } from 'date-fns';
 
 export const RankingContext = createContext();
+RankingContext.displayName = 'Ranking';
 
 export function RankingProvider({ children }) {
     const [ranking, setRanking] = useState([]);
