@@ -3,8 +3,14 @@ import { Link } from "react-router-dom";
 
 function Header({ isLoggedIn, onLogout }) {
     const [isMenuOpen, setMenuOpen] = React.useState(false);
-    const username = localStorage.getItem('email')?.split('@')[0];
+    const username_ = localStorage.getItem('email')?.split('@')[0];
 
+    const capitalizeFirstLetter = (string) => {
+        if (!string) return string;
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+    const username = capitalizeFirstLetter(username_);
 
 
     const toggleMenu = () => {
@@ -24,8 +30,8 @@ function Header({ isLoggedIn, onLogout }) {
                     </Link>
                     {isLoggedIn && (
                         <span className="mr-4 font-semibold text-white text-sm md:text-base lg:font-medium lg:mr-6">
-                            {/* Treinador: <span className="text-gray-200 font-bold">{username}</span> */}
-                            <span className="text-gray-200 font-bold">Amo vocês!</span>
+                            Treinador: <span className="text-gray-200 font-bold">{username}</span>
+                            {/* <span className="text-gray-200 font-bold">Amo vocês!</span> */}
                         </span>
 
                     )}
